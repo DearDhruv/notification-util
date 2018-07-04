@@ -1,4 +1,4 @@
-package com.deardhruv.notificationutil;
+package com.deardhruv.notificationutildemo;
 
 import android.content.Context;
 

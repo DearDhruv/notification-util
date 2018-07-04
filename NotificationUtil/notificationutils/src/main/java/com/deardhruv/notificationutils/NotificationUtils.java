@@ -1,4 +1,4 @@
-package com.deardhruv.notificationutil;
+package com.deardhruv.notificationutils;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

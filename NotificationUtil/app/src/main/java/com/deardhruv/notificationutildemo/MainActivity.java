@@ -1,8 +1,10 @@
-package com.deardhruv.notificationutil;
+package com.deardhruv.notificationutildemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.deardhruv.notificationutils.NotificationUtils;
 
 public class MainActivity extends AppCompatActivity {
 
