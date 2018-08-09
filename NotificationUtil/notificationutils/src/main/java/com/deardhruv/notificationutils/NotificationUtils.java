@@ -1,15 +1,18 @@
 package com.deardhruv.notificationutils;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
+import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
 
 /**
  * This util class is solely made for testing the maven/jcentre dependencies.
- * This may not work as expected and have minimum supported version 26.
  */
 public class NotificationUtils extends ContextWrapper {
 
@@ -19,9 +22,12 @@ public class NotificationUtils extends ContextWrapper {
 
     public NotificationUtils(Context base) {
         super(base);
-        createChannels();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannels();
+        }
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     public void createChannels() {
 
         // create android channel
@@ -46,27 +52,28 @@ public class NotificationUtils extends ContextWrapper {
         return mManager;
     }
 
-    public Notification.Builder getNewAndroidChannelNotification(String title, String body) {
-        return new Notification.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
+    public NotificationCompat.Builder getNotificationBuilder(String title, String body) {
+        return new NotificationCompat.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }
 
     public void sendNotification(int id, String title, String body) {
-        Notification noti = getNewAndroidChannelNotification(title, body).build();
+        Notification noti = getNotificationBuilder(title, body).build();
         getManager().notify(id, noti);
     }
 
     public void sendNotification(String title, String body) {
-        Notification noti = getNewAndroidChannelNotification(title, body).build();
+        Notification noti = getNotificationBuilder(title, body).build();
         getManager().notify((int) System.currentTimeMillis(), noti);
     }
 
     public void sendTestNotification() {
         String name = this.getClass().getName();
-        Notification noti = getNewAndroidChannelNotification("This is title", name).build();
+        Notification noti = getNotificationBuilder("This is title", name).build();
         getManager().notify((int) System.currentTimeMillis(), noti);
     }
 }
