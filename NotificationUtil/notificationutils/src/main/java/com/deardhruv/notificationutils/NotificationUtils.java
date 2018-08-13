@@ -42,10 +42,10 @@ public class NotificationUtils extends ContextWrapper {
         // Sets whether notifications posted to this channel appear on the lockscreen or not
         androidChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
-        getManager().createNotificationChannel(androidChannel);
+        getNotificationManager().createNotificationChannel(androidChannel);
     }
 
-    public NotificationManager getManager() {
+    public synchronized NotificationManager getNotificationManager() {
         if (mManager == null) {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
@@ -63,17 +63,17 @@ public class NotificationUtils extends ContextWrapper {
 
     public void sendNotification(int id, String title, String body) {
         Notification noti = getNotificationBuilder(title, body).build();
-        getManager().notify(id, noti);
+        getNotificationManager().notify(id, noti);
     }
 
     public void sendNotification(String title, String body) {
         Notification noti = getNotificationBuilder(title, body).build();
-        getManager().notify((int) System.currentTimeMillis(), noti);
+        getNotificationManager().notify((int) System.currentTimeMillis(), noti);
     }
 
     public void sendTestNotification() {
         String name = this.getClass().getName();
         Notification noti = getNotificationBuilder("This is title", name).build();
-        getManager().notify((int) System.currentTimeMillis(), noti);
+        getNotificationManager().notify((int) System.currentTimeMillis(), noti);
     }
 }
